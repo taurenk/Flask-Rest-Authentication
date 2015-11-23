@@ -8,7 +8,7 @@ from flask_login import LoginManager, login_user, UserMixin, login_required, log
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://taurenk:Wrangler631@demodb.csxsl6g3bmig.us-east-1.rds.amazonaws.com/demodb"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://X:X@demodb.csxsl6g3bmig.us-east-1.rds.amazonaws.com/demodb"
 db = SQLAlchemy(app)
 
 """ Authentication """
