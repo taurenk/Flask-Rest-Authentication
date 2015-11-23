@@ -1,2 +1,6 @@
 flask
-flask-restful
+flask-potion
+psycopg2
+flask_sqlalchemy
+flask-login
+
