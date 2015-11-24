@@ -15,7 +15,7 @@ def create_app(config_file):
     from app.models import db, User, Task
     from auth import auth_api
     db.init_app(app)
-    # db.create_all()
+    #db.create_all()
 
 
     @login_manager.user_loader
