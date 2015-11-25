@@ -24,4 +24,5 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     title = db.Column(db.String(), nullable=False)
+    # Relationship Link
     user = db.relationship(User, backref=backref('tasks', lazy='dynamic'))
