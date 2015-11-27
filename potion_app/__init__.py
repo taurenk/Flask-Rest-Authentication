@@ -7,7 +7,12 @@ from flask_login import LoginManager, login_required, current_user
 from flask_principal import Principal, Identity, AnonymousIdentity, identity_loaded, UserNeed
 
 from flask_potion import fields, signals, Api
-from flask_potion.contrib.principals import PrincipalResource
+from flask_potion.contrib.principals import PrincipalResource, HybridItemNeed
+
+
+
+from collections import namedtuple
+from functools import partial
 
 def create_app(config_file):
 
@@ -22,7 +27,6 @@ def create_app(config_file):
 
 
     """ Principal Permissions """
-    """
     principals = Principal(app)
 
     @principals.identity_loader
@@ -37,24 +41,39 @@ def create_app(config_file):
         if not isinstance(identity, AnonymousIdentity):
             identity.provides.add(UserNeed(identity.id))
 
-    """
 
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.filter_by(id=user_id).first()
 
-    class TaskResource(ModelResource):
+
+    class TaskResource(PrincipalResource):
         class Meta:
             model = Task
+            permissions = {
+                'read': 'user:user',
+                'create': 'anybody',
+                'update': 'yes',
+                'delete': 'yes'
+            }
+
 
         class Schema:
             user = fields.ToOne('user')
 
-    class UserResource(ModelResource):
+
+
+    class UserResource(PrincipalResource):
         tasks = Relation('task')
 
         class Meta:
             model = User
+            permissions = {
+                'read':    UserNeed(model.id),
+                'create': 'yes',
+                'update': 'no',
+                'delete': 'no'
+            }
 
     app.register_blueprint(auth_api, url_prefix='/api/auth')
     api = Api(app, decorators=[login_required])
