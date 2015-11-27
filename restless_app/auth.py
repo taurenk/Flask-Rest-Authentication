@@ -3,13 +3,12 @@ __author__ = 'tauren'
 from flask import Blueprint, json, jsonify, request, abort
 from model import User
 from flask_login import LoginManager, login_user
-from app.models import db
+from restless_app.model import db
 from itsdangerous import URLSafeTimedSerializer
 
 auth_api = Blueprint('auth_api', __name__)
 login_manager = LoginManager()
 login_serializer = URLSafeTimedSerializer('SECRET KEY')
-
 
 
 @login_manager.request_loader
